@@ -1,77 +1,140 @@
+body {
+  font-family: 'Arial', sans-serif;
+}
+
 .App {
-    text-align: center;
-    padding: 20px;
-    width: 100%;
-    height: 100vh;
- }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-  }
-  
-  .cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 20px;
-  }
-  
-  .card {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    min-width: 200px;
-  }
-  
-  .App input {
-    margin-bottom: 10px;
-    padding: 5px;
-    width: 200px;
-  }
-  
-  .salvar-button {
-    background-color: #61dafb;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    margin-bottom: 20px;
-  }
-  
-  .salvar-button:hover {
-    background-color: #4fa3d1;
-  }
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  height: 100vh;
+}
 
-  .rivaldo {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    background-color: #61dafb;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-  }
-  
-  .rivaldo:hover {
-    background-color: #4fa3d1;
-  }
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
 
-.modal{
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.card {
+  width: auto; /* Alterado para ajustar dinamicamente ao conteúdo */
+  max-width: 250px; /* Define uma largura máxima para evitar que fique muito largo */
+  background: rgb(40, 40, 55);
+  box-shadow: 4px 6px 14px #00000036;
+  border-radius: 3px;
+  color: #f9f9f9;
+  padding: 16px;
+  margin: 5px;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.card .fechar-card-button {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  margin-top: -30px;
+}
+
+.card .fechar-card-button:hover {
+  color: #555;
+  transform: scale(1.1);
+}
+
+.App input {
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 200px;
+}
+
+.salvar-button {
+  background-color: #61dafb;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 20px;
+}
+
+.salvar-button:hover {
+  background-color: #4fa3d1;
+}
+
+.rivaldo {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #61dafb;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+}
+
+.rivaldo:hover {
+  background-color: #4fa3d1;
+}
+
+.modal {
+  background-color: white;
   display: none;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 200px;
-  height: 150px;
+  align-items: center;
+  width: 400px;
+  height: 300px;
+  z-index:2;
+}
+
+.modal-header {
+  width: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 2px;
+}
+
+.fechar-button {
+  background: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.fechar-button:hover {
+  transform: scale(1.1);
+}
+
+.card .informacoesAdicionais{
+  overflow: hidden;
+  word-wrap: break-word;
+  max-height: none;
 }
