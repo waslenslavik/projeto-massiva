@@ -6,6 +6,7 @@ import './index.css';
 function App() {
   const [cards, setCards] = useState([]);
   const [localidade, setLocalidade] = useState('');
+  const [tipoDeFalha, setTipoDeFalha] = useState('Rompimento');
   const [horaDeFalha, setHoraDeFalha] = useState('');
   const [previsaoDeRetorno, setPrevisaoDeRetorno] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,7 @@ function App() {
   };
 
   const criarCard = () => {
-    if (!localidade || !horaDeFalha || !previsaoDeRetorno) {
+    if (!localidade || !horaDeFalha || !previsaoDeRetorno || !tipoDeFalha || !informacoesAdicionais) {
       alert('Por favor, preencha todas as informações.');
       return;
     }
@@ -33,7 +34,8 @@ function App() {
         localidade,
         horaDeFalha,
         previsaoDeRetorno,
-        informacoesAdicionais, // Corrigido aqui
+        tipoDeFalha,
+        informacoesAdicionais,
         texto: `Card ${prevCards.length + 1}`,
       },
     ]);
@@ -42,6 +44,7 @@ function App() {
     setHoraDeFalha('');
     setPrevisaoDeRetorno('');
     setInformacoesAdicionais('');
+    setTipoDeFalha('');
     isModalClose();
   };
 
@@ -56,6 +59,7 @@ function App() {
             <FontAwesomeIcon icon={faCircleXmark} size="xl" style={{ color: "#000000" }} />
           </button>
         </div>
+        <div className='rivaldo2'>
         <div className='modal-content'>
           <div>
             <label>Localidade:</label>
@@ -64,6 +68,17 @@ function App() {
               value={localidade}
               onChange={(e) => setLocalidade(e.target.value)}
             />
+          </div>
+          <div>
+          <label>Tipo de Falha:</label>
+            <select  value={tipoDeFalha} onChange={(e) => setTipoDeFalha(e.target.value)}>
+              <optgroup label='Selecione a Falha'>
+              <option>Rompimento</option>
+              <option>Falha de Energia</option>
+              <option>Lentidão</option>
+              <option>Manutenção</option>
+              </optgroup>
+            </select>
           </div>
           <div>
             <label>Hora de Falha:</label>
@@ -89,6 +104,7 @@ function App() {
               onChange={(e) => setInformacoesAdicionais(e.target.value)}
             />
           </div>
+          </div>
           <button className='salvar-button' onClick={criarCard}>
             Salvar
           </button>
@@ -105,6 +121,7 @@ function App() {
               <FontAwesomeIcon icon={faCircleXmark} size="sm" style={{ color: "white" }} />
             </button>
             <p>Localidade: {card.localidade}</p>
+            <p>Tipo de Falha: {card.tipoDeFalha}</p>
             <p>Hora de Falha: {card.horaDeFalha}</p>
             <p>Previsão de Retorno: {card.previsaoDeRetorno}</p>
             <p  className='informacoesAdicionais'>Informações Adicionais: {card.informacoesAdicionais}</p> {/* Adicionado aqui */}
