@@ -6,7 +6,7 @@ import './index.css';
 function App() {
   const [cards, setCards] = useState([]);
   const [localidade, setLocalidade] = useState('');
-  const [tipoDeFalha, setTipoDeFalha] = useState('Rompimento');
+  const [tipoDeFalha, setTipoDeFalha] = useState('');
   const [horaDeFalha, setHoraDeFalha] = useState('');
   const [previsaoDeRetorno, setPrevisaoDeRetorno] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -72,12 +72,11 @@ function App() {
           <div>
           <label>Tipo de Falha:</label>
             <select  value={tipoDeFalha} onChange={(e) => setTipoDeFalha(e.target.value)}>
-              <optgroup label='Selecione a Falha'>
-              <option>Rompimento</option>
-              <option>Falha de Energia</option>
-              <option>Lentidão</option>
-              <option>Manutenção</option>
-              </optgroup>
+              <option value="">Selecione a Falha</option>
+              <option value="Rompimento">Rompimento</option>
+              <option value="Falha de Energia">Falha de Energia</option>
+              <option value="Lentidão">Lentidão</option>
+              <option value="Manutenção">Manutenção</option>
             </select>
           </div>
           <div>
@@ -91,7 +90,7 @@ function App() {
           <div>
             <label>Previsão de Retorno:</label>
             <input
-              type='time'
+              type='text'
               value={previsaoDeRetorno}
               onChange={(e) => setPrevisaoDeRetorno(e.target.value)}
             />
