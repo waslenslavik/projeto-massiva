@@ -105,7 +105,7 @@
 
 .modal-content {
   width: inherit;
-  height: 400px;
+  height: auto;
   text-align: justify;
   padding: 30px;
   display: flex ;
@@ -117,7 +117,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 20px;
   position: absolute;
   top: 0;
   right: 0;
@@ -187,4 +187,10 @@
   font-family: 'Ubuntu', sans-serif;
   font-weight: bold;
   color: rgb(0, 0, 0);
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
