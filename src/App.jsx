@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { Navbar } from './Navbar'
 import './index.css';
+import './navbar.css';
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -50,6 +52,7 @@ function App() {
 
   return (
     <div className='App'>
+      <Navbar/>
       <button className='rivaldo' onClick={isModalOpen}>
         Novo Massiva
       </button>
