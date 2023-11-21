@@ -9,7 +9,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const [localidade, setLocalidade] = useState('');
   const [tipoDeFalha, setTipoDeFalha] = useState('');
-  const [horaDeFalha, setHoraDeFalha] = useState('');
+  const [horarioDaFalha, setHorarioDaFalha] = useState('');
   const [previsaoDeRetorno, setPrevisaoDeRetorno] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [informacoesAdicionais, setInformacoesAdicionais] = useState('');
@@ -24,7 +24,7 @@ function App() {
   };
 
   const criarCard = () => {
-    if (!localidade || !horaDeFalha || !previsaoDeRetorno || !tipoDeFalha || !informacoesAdicionais) {
+    if (!localidade || !horarioDaFalha || !previsaoDeRetorno || !tipoDeFalha || !informacoesAdicionais) {
       alert('Por favor, preencha todas as informações.');
       return;
     }
@@ -34,7 +34,7 @@ function App() {
       {
         id: prevCards.length + 1,
         localidade,
-        horaDeFalha,
+        horarioDaFalha,
         previsaoDeRetorno,
         tipoDeFalha,
         informacoesAdicionais,
@@ -43,7 +43,7 @@ function App() {
     ]);
 
     setLocalidade('');
-    setHoraDeFalha('');
+    setHorarioDaFalha('');
     setPrevisaoDeRetorno('');
     setInformacoesAdicionais('');
     setTipoDeFalha('');
@@ -83,11 +83,11 @@ function App() {
             </select>
           </div>
           <div>
-            <label>Hora de Falha:</label>
+            <label>Horário da Falha:</label>
             <input
               type='time'
-              value={horaDeFalha}
-              onChange={(e) => setHoraDeFalha(e.target.value)}
+              value={horarioDaFalha}
+              onChange={(e) => setHorarioDaFalha(e.target.value)}
             />
           </div>
           <div>
