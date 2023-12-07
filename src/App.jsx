@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { Navbar } from './Navbar';
-import './index.css';
+import './App.css';
 import './navbar.css';
 
 function App() {
@@ -13,9 +13,9 @@ function App() {
   const [previsaoDeRetorno, setPrevisaoDeRetorno] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [informacoesAdicionais, setInformacoesAdicionais] = useState('');
+  const [locaisAfetados, setLocaisAfetados] = useState('');
 
   const [mostrarMensagens, setMostrarMensagens] = useState(false);
-
   const [localidadeError, setLocalidadeError] = useState('');
   const [tipoDeFalhaError, setTipoDeFalhaError] = useState('');
   const [horarioDaFalhaError, setHorarioDaFalhaError] = useState('');
@@ -39,15 +39,14 @@ function App() {
     setPrevisaoDeRetornoError('');
   };
 
-  const criarCard = () => {
+  const criarCard = async () => {
     setLocalidadeError('');
     setTipoDeFalhaError('');
     setHorarioDaFalhaError('');
     setPrevisaoDeRetornoError('');
-  
 
     let temErro = false;
-  
+
     if (!localidade) {
       setLocalidadeError('Por favor, preencha este campo.');
       temErro = true;
@@ -61,26 +60,45 @@ function App() {
       setMostrarMensagens(true);
       return;
     }
-  
+
+    try {
+      const response = await axios.post('/api/massive', {
+        localidade,
+        tipoDeFalha,
+        horarioDaFalha,
+        previsaoDeRetorno,
+        informacoesAdicionais,
+        locaisAfetados,
+      })
+
     setCards((prevCards) => [
       ...prevCards,
       {
-        id: prevCards.length + 1,
+        id: response.data.id,
         localidade,
+        tipoDeFalha,
         horarioDaFalha,
         previsaoDeRetorno,
-        tipoDeFalha,
         informacoesAdicionais,
-        texto: `Card ${prevCards.length + 1}`,
+        locaisAfetados,
+        texto: `Card ${response.data.id}`,
       },
     ]);
-  
+
+    limparCampos();
+    isModalClose();
+  } catch (error) {
+    console.error('Error ao criar o card:', error);
+  }
+  };
+
+  const limparCampos = () => {
     setLocalidade('');
     setTipoDeFalha('');
     setHorarioDaFalha('');
     setPrevisaoDeRetorno('');
     setInformacoesAdicionais('');
-    isModalClose();
+    setLocaisAfetados('');
   };
 
   return (
@@ -115,10 +133,10 @@ function App() {
               <label>Tipo de Falha:</label>
               <select value={tipoDeFalha} onChange={(e) => setTipoDeFalha(e.target.value)}>
                 <option value=''>Selecione a Falha</option>
-                <option value='Rompimento'>Rompimento</option>
-                <option value='Falha de Energia'>Falha de Energia</option>
-                <option value='Lentidão'>Lentidão</option>
-                <option value='Manutenção'>Manutenção</option>
+                <option value='ROMPIMENTO'>ROMPIMENTO</option>
+                <option value='FALHA DE ENERGIA'>FALHA DE ENERGIA</option>
+                <option value='LENTIDÃO'>LENTIDÃO</option>
+                <option value='MANUTENÇÃO'>MANUTENÇÃO</option>
               </select>
               {mostrarMensagens && tipoDeFalhaError && (
                 <span className='error-message'>{tipoDeFalhaError}</span>
@@ -153,13 +171,22 @@ function App() {
               )}
             </div>
             <div>
-              <label>Informações Adicionais:</label>
+              <label>Locais Afetados:</label>
               <input
                 type='text'
-                value={informacoesAdicionais}
-                onChange={(e) => setInformacoesAdicionais(e.target.value)}
+                value={locaisAfetados}
+                onChange={(e) => setLocaisAfetados(e.target.value)}
               />
             </div>
+            <div>
+              <label>Informações Adicionais: </label>
+              <input
+              type='text'
+              value={informacoesAdicionais}
+              onChange={(e) => setInformacoesAdicionais(e.target.value)}
+              />
+            </div>
+
             <button className='salvar-button' onClick={criarCard}>
               Salvar
             </button>
@@ -169,6 +196,17 @@ function App() {
       <div className='cards-container'>
         {cards.map((card) => (
           <div key={card.id} className='card'>
+            <div className='header'>
+              <p>{card.localidade}</p>
+              <p>{card.tipoDeFalha}</p>
+              <p>{card.horarioDaFalha}</p>
+            </div>
+            <hr />
+            <div className='informacoesLocais'>
+              <p>Previsão de Retorno: {card.previsaoDeRetorno}</p>
+              <p>Locais Afetados: {card.locaisAfetados}</p>
+              <p>Informações Adicionais: {card.informacoesAdicionais}</p>
+            </div>
             <button
               className='fechar-card-button'
               onClick={() => {
@@ -177,13 +215,6 @@ function App() {
             >
               <FontAwesomeIcon icon={faCircleXmark} size='sm' style={{ color: 'white' }} />
             </button>
-            <p>Localidade: {card.localidade}</p>
-            <p>Tipo de Falha: {card.tipoDeFalha}</p>
-            <p>Hora de Falha: {card.horaDeFalha}</p>
-            <p>Previsão de Retorno: {card.previsaoDeRetorno}</p>
-            <p className='informacoesAdicionais'>
-              Informações Adicionais: {card.informacoesAdicionais}
-            </p>
           </div>
         ))}
       </div>

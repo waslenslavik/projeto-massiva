@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@800&family=Ubuntu:wght@700&display=swap');
 
 * {
-  padding:0;
+  padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
@@ -10,7 +10,6 @@
 .App {
   text-align: center;
   width: 100%;
-
 }
 
 .App-header {
@@ -26,28 +25,46 @@
 .cards-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
 .card {
   position: relative;
-  width: 450px;
+  width: 30%;
+  max-width: 450px;
   height: auto;
   padding: 2%;
-  background: rgb(133, 208, 231);
-  color: rgb(0, 0, 0);
-  margin: 5px;
+  background: #ff8006;
   border-radius: 5%;
+  margin: 0.5rem;
   transition: all 0.3s;
   display: flex;
   justify-content: center;
   flex-direction: column;
   text-align: left;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
   word-wrap: break-word;
-  
+  box-shadow: 0 0 10px rgba(0, 0, 0, 2);
+}
+
+.card p {
+  color: white;
+  padding: 5px;
+  margin: auto 0;
+}
+
+.card .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid black;
+  padding-bottom: 10px;
+}
+
+.card .header p {
+  font-size: 16px;
 }
 
 .card .fechar-card-button {
@@ -68,6 +85,12 @@
   transform: scale(1.1);
 }
 
+.card .informacoesLocais {
+  overflow: hidden;
+  word-wrap: break-word;
+  max-height: none;
+}
+
 .App input {
   margin-bottom: 10px;
   padding: 5px;
@@ -75,7 +98,7 @@
 }
 
 .rivaldo {
-  background: #4fa3d1;
+  background: #ff7400;
   position: fixed;
   bottom: 10px;
   right: 10px;
@@ -84,6 +107,7 @@
   font-size: 16px;
   cursor: pointer;
   border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 2);
   transition: transform 0.3s ease;
 }
 
@@ -92,7 +116,7 @@
 }
 
 .modal {
-  background: #00bcd4;
+  background: #ff7400;
   display: none;
   position: fixed;
   top: 50%;
@@ -108,9 +132,8 @@
   height: auto;
   text-align: justify;
   padding: 30px;
-  display: flex ;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .modal-header {
@@ -129,11 +152,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
 }
 
 .rivaldo2 label {
-  display: block;
+  display: flex;
   font-weight: bold;
   margin-bottom: 5px;
 }
@@ -149,10 +171,11 @@
 }
 
 .rivaldo2 .salvar-button {
-  background-color: #1793a3;
-  color: #ffffff;
-  padding: 10px 15px;
-  margin: 10px;
+  width: 80px;
+  background-color: white;
+  color: black;
+  padding: 8px 15px;
+  margin: 10px auto;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -163,9 +186,10 @@
   transform: scale(1.1);
 }
 
-.modal-content label{
+.modal-content label {
   margin-right: 10px;
 }
+
 .fechar-button {
   background-color: transparent;
   border: none;
@@ -177,13 +201,13 @@
   transform: scale(1.1);
 }
 
-.card .informacoesAdicionais{
+.card .informacoesAdicionais {
   overflow: hidden;
   word-wrap: break-word;
   max-height: none;
 }
 
-.titulo{
+.titulo {
   font-family: 'Ubuntu', sans-serif;
   font-weight: bold;
   color: rgb(0, 0, 0);
