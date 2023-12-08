@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { Navbar } from './Navbar';
@@ -7,6 +8,7 @@ import './navbar.css';
 
 function App() {
   const [cards, setCards] = useState([]);
+  const [massives, setMassives] = useState([]);
   const [localidade, setLocalidade] = useState('');
   const [tipoDeFalha, setTipoDeFalha] = useState('');
   const [horarioDaFalha, setHorarioDaFalha] = useState('');
@@ -20,6 +22,18 @@ function App() {
   const [tipoDeFalhaError, setTipoDeFalhaError] = useState('');
   const [horarioDaFalhaError, setHorarioDaFalhaError] = useState('');
   const [previsaoDeRetornoError, setPrevisaoDeRetornoError] = useState('');
+
+  useEffect(()  => {
+    const getMassive = async () => {
+      await axios.get('http://localhost:3000/api/massives')
+      .then((response) => {
+        setMassives(response.data)
+        return response
+      });
+    }
+    getMassive();
+  }, []);
+
 
   const isModalOpen = (e) => {
     e.preventDefault();
@@ -44,9 +58,9 @@ function App() {
     setTipoDeFalhaError('');
     setHorarioDaFalhaError('');
     setPrevisaoDeRetornoError('');
-
+  
     let temErro = false;
-
+  
     if (!localidade) {
       setLocalidadeError('Por favor, preencha este campo.');
       temErro = true;
@@ -55,42 +69,42 @@ function App() {
       setTipoDeFalhaError('Por favor, selecione o tipo de falha.');
       temErro = true;
     }
-
+  
     if (temErro) {
       setMostrarMensagens(true);
       return;
     }
-
+  
     try {
-      const response = await axios.post('/api/massive', {
+      const response = await axios.post('http://localhost:3000/api/massives', {
         localidade,
         tipoDeFalha,
         horarioDaFalha,
         previsaoDeRetorno,
         informacoesAdicionais,
         locaisAfetados,
-      })
-
-    setCards((prevCards) => [
-      ...prevCards,
-      {
-        id: response.data.id,
-        localidade,
-        tipoDeFalha,
-        horarioDaFalha,
-        previsaoDeRetorno,
-        informacoesAdicionais,
-        locaisAfetados,
-        texto: `Card ${response.data.id}`,
-      },
-    ]);
-
-    limparCampos();
-    isModalClose();
-  } catch (error) {
-    console.error('Error ao criar o card:', error);
-  }
-  };
+      });
+  
+      setCards((prevCards) => [
+        ...prevCards,
+        {
+          id: response.data.id,
+          localidade: response.data.localidade,
+          tipoDeFalha: response.data.tipoDeFalha,
+          horarioDaFalha: response.data.horarioDaFalha,
+          previsaoDeRetorno: response.data.previsaoDeRetorno,
+          informacoesAdicionais: response.data.informacoesAdicionais,
+          locaisAfetados: response.data.locaisAfetados,
+          texto: `Card ${response.data.id}`,
+        },
+      ]);
+  
+      limparCampos();
+      isModalClose();
+    } catch (error) {
+      console.error('Erro ao criar o card:', error);
+    }
+  };  
 
   const limparCampos = () => {
     setLocalidade('');
@@ -194,18 +208,17 @@ function App() {
         </div>
       </div>
       <div className='cards-container'>
-        {cards.map((card) => (
-          <div key={card.id} className='card'>
+        {massives.map((card, index) => (
+          <div key={index} className='card'>
             <div className='header'>
-              <p>{card.localidade}</p>
-              <p>{card.tipoDeFalha}</p>
-              <p>{card.horarioDaFalha}</p>
+              <p>{card.type}</p>
+              <p></p>
             </div>
             <hr />
             <div className='informacoesLocais'>
-              <p>Previsão de Retorno: {card.previsaoDeRetorno}</p>
+              <p>Previsão de Retorno: {card.returndate}</p>
               <p>Locais Afetados: {card.locaisAfetados}</p>
-              <p>Informações Adicionais: {card.informacoesAdicionais}</p>
+              <p>Informações Adicionais: {card.description}</p>
             </div>
             <button
               className='fechar-card-button'
