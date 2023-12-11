@@ -8,10 +8,11 @@ export const NovoMassiva = styled.button`
     color: white;
     padding: 10px 20px;
     font-size: 16px;
-    cursor: pointer;
     border: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 2);
+    cursor: pointer;
     transition: transform 0.3s ease;
+
     :hover {
         transform: scale(1.1);
     }

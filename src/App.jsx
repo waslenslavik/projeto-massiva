@@ -6,14 +6,58 @@ import { Global } from './styles/styledGlobal'
 import { Navbar } from './NavBar';
 import { NovoMassiva } from './styles/novoMassivaButton';
 import { ModalContainer, ModalContent, ModalHeader } from './styles/ModalStyles';
-import { CardContainer, CardHeader, FecharCardButton } from './styles/CardStyles';
+import { Card, CardConteiner, CardHeader, ErrorMessage, FecharCardButton } from './styles/CardStyles';
 import { FormCardContainer, FormCardInput, FormCardLabel, FormCardSalvarButton, FormCardSelect } from './styles/FormCard';
-import { AppContainer } from './styles/AppStyled';
+import { AppContainer, Overlay } from './styles/AppStyled';
 
 
 function App() {
+  const [massives, setMassives] = useState([
+    {
+      id: 1,
+      type: 'ROMPIMENTO',
+      returndate: '2023-12-11',
+      locaisAfetados: 'Local A, Local B',
+      description: 'Descrição da falha',
+    },
+    {
+      id: 2,
+      type: 'FALHA DE ENERGIA',
+      returndate: '2023-12-12',
+      locaisAfetados: 'Local C, Local D',
+      description: 'Outra descrição da falha',
+    },
+    {
+      id: 3,
+      type: 'MANUTENÇÃO',
+      returndate: '2023-12-12',
+      locaisAfetados: 'Local E, Local F',
+      description: 'Outra descrição da falha',
+    },
+    {
+      id: 3,
+      type: 'MANUTENÇÃO',
+      returndate: '2023-12-12',
+      locaisAfetados: 'Local E, Local F',
+      description: 'Outra descrição da falha',
+    },
+    {
+      id: 3,
+      type: 'MANUTENÇÃO',
+      returndate: '2023-12-12',
+      locaisAfetados: 'Local E, Local F',
+      description: 'Outra descrição da falha',
+    },
+    {
+      id: 3,
+      type: 'MANUTENÇÃO',
+      returndate: '2023-12-12',
+      locaisAfetados: 'Local E, Local F',
+      description: 'Outra descrição da falha',
+    },
+  ]);
+
   const [cards, setCards] = useState([]);
-  const [massives, setMassives] = useState([]);
   const [localidade, setLocalidade] = useState('');
   const [tipoDeFalha, setTipoDeFalha] = useState('');
   const [horarioDaFalha, setHorarioDaFalha] = useState('');
@@ -28,13 +72,13 @@ function App() {
   const [horarioDaFalhaError, setHorarioDaFalhaError] = useState('');
   const [previsaoDeRetornoError, setPrevisaoDeRetornoError] = useState('');
 
-  useEffect(()  => {
+  useEffect(() => {
     const getMassive = async () => {
       await axios.get('http://localhost:3000/api/massives')
-      .then((response) => {
-        setMassives(response.data)
-        return response
-      });
+        .then((response) => {
+          setMassives(response.data);
+          return response;
+        });
     }
     getMassive();
   }, []);
@@ -120,8 +164,10 @@ function App() {
     setLocaisAfetados('');
   };
 
+
   return (
     <AppContainer>
+      <Overlay isOpen={isOpen} onClick={isModalClose}/>
       <Global/>
       <Navbar />
       <NovoMassiva onClick={isModalOpen}>
@@ -130,7 +176,7 @@ function App() {
       <ModalContainer style={{ display: isOpen ? 'block' : 'none' }}>
         <ModalHeader>
           <FecharCardButton onClick={isModalClose}>
-            <FontAwesomeIcon icon={faCircleXmark} size='xl' style={{ color: '#000000' }} />
+            <FontAwesomeIcon icon={faCircleXmark} size='x' style={{ color: 'white' }} />
           </FecharCardButton>
         </ModalHeader>
         <FormCardContainer>
@@ -146,7 +192,7 @@ function App() {
                 }}
               />
               {mostrarMensagens && localidadeError && (
-                <span className='error-message'>{localidadeError}</span>
+                <ErrorMessage>{localidadeError}</ErrorMessage>
               )}
             </div>
             <div>
@@ -159,7 +205,7 @@ function App() {
                 <option value='MANUTENÇÃO'>MANUTENÇÃO</option>
               </FormCardSelect>
               {mostrarMensagens && tipoDeFalhaError && (
-                <span className='error-message'>{tipoDeFalhaError}</span>
+                <ErrorMessage>{tipoDeFalhaError}</ErrorMessage>
               )}
             </div>
             <div>
@@ -173,7 +219,7 @@ function App() {
                 }}
               />
               {mostrarMensagens && horarioDaFalhaError && (
-                <span className='error-message'>{horarioDaFalhaError}</span>
+                <ErrorMessage>{horarioDaFalhaError}</ErrorMessage>
               )}
             </div>
             <div>
@@ -187,7 +233,7 @@ function App() {
                 }}
               />
               {mostrarMensagens && previsaoDeRetornoError && (
-                <span className='error-message'>{previsaoDeRetornoError}</span>
+                <ErrorMessage>{previsaoDeRetornoError}</ErrorMessage>
               )}
             </div>
             <div>
@@ -213,15 +259,14 @@ function App() {
           </ModalContent>
         </FormCardContainer>
       </ModalContainer>
-      <card>
+
+      <CardConteiner>
         {massives.map((card, index) => (
-          <CardContainer key={index}>
+          <Card key={index}>
             <CardHeader>
               <p>{card.type}</p>
-              <p></p>
             </CardHeader>
-            <hr />
-            <div className='informacoesLocais'>
+            <div>
               <p>Previsão de Retorno: {card.returndate}</p>
               <p>Locais Afetados: {card.locaisAfetados}</p>
               <p>Informações Adicionais: {card.description}</p>
@@ -233,9 +278,9 @@ function App() {
             >
               <FontAwesomeIcon icon={faCircleXmark} size='sm' style={{ color: 'white' }} />
             </FecharCardButton>
-          </CardContainer>
+          </Card>
         ))}
-      </card>
+      </CardConteiner>
     </AppContainer>
   );
 }

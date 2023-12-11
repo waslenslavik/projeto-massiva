@@ -1,6 +1,18 @@
 import styled from 'styled-components';
 
-export const CardContainer = styled.div`
+
+export const CardConteiner = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+`
+
+export const Card = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column;
     position: relative;
     width: 30%;
     max-width: 450px;
@@ -11,8 +23,6 @@ export const CardContainer = styled.div`
     margin: 0.5rem;
     transition: all 0.3s;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
     text-align: left;
     font-size: 20px;
     font-weight: bold;
@@ -43,4 +53,11 @@ export const FecharCardButton = styled.button`
     color: #555;
     transform: scale(1.1);
     }
+`
+
+export const ErrorMessage = styled.span`
+    color: black;
+    font-size: 18px;
+    margin-top: 5px;
+    font-weight: bold;
 `
