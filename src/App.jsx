@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Navbar } from './NavBar';
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { Navbar } from './Navbar';
+
 import './App.css';
-import './navbar.css';
 
 function App() {
   const [cards, setCards] = useState([]);
