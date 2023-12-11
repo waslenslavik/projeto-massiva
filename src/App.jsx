@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar } from './NavBar';
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { Global } from './styles/styledGlobal'
+import { Navbar } from './NavBar';
+import { NovoMassiva } from './styles/novoMassivaButton';
+import { ModalContainer, ModalContent, ModalHeader } from './styles/ModalStyles';
+import { CardContainer, CardHeader, FecharCardButton } from './styles/CardStyles';
+import { FormCardContainer, FormCardInput, FormCardLabel, FormCardSalvarButton, FormCardSelect } from './styles/FormCard';
+import { AppContainer } from './styles/AppStyled';
 
-import './App.css';
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -116,22 +121,23 @@ function App() {
   };
 
   return (
-    <div className='App'>
+    <AppContainer>
+      <Global/>
       <Navbar />
-      <button className='rivaldo' onClick={isModalOpen}>
+      <NovoMassiva onClick={isModalOpen}>
         Novo Massiva
-      </button>
-      <div className='modal' id='modal' style={{ display: isOpen ? 'block' : 'none' }}>
-        <div className='modal-header'>
-          <button className='fechar-button' onClick={isModalClose}>
+      </NovoMassiva>
+      <ModalContainer style={{ display: isOpen ? 'block' : 'none' }}>
+        <ModalHeader>
+          <FecharCardButton onClick={isModalClose}>
             <FontAwesomeIcon icon={faCircleXmark} size='xl' style={{ color: '#000000' }} />
-          </button>
-        </div>
-        <div className='rivaldo2'>
-          <div className='modal-content'>
+          </FecharCardButton>
+        </ModalHeader>
+        <FormCardContainer>
+          <ModalContent>
             <div>
-              <label>Localidade:</label>
-              <input
+              <FormCardLabel>Localidade:</FormCardLabel>
+              <FormCardInput
                 type='text'
                 value={localidade}
                 onChange={(e) => {
@@ -144,21 +150,21 @@ function App() {
               )}
             </div>
             <div>
-              <label>Tipo de Falha:</label>
-              <select value={tipoDeFalha} onChange={(e) => setTipoDeFalha(e.target.value)}>
+              <FormCardLabel>Tipo de Falha:</FormCardLabel>
+              <FormCardSelect value={tipoDeFalha} onChange={(e) => setTipoDeFalha(e.target.value)}>
                 <option value=''>Selecione a Falha</option>
                 <option value='ROMPIMENTO'>ROMPIMENTO</option>
                 <option value='FALHA DE ENERGIA'>FALHA DE ENERGIA</option>
                 <option value='LENTIDÃO'>LENTIDÃO</option>
                 <option value='MANUTENÇÃO'>MANUTENÇÃO</option>
-              </select>
+              </FormCardSelect>
               {mostrarMensagens && tipoDeFalhaError && (
                 <span className='error-message'>{tipoDeFalhaError}</span>
               )}
             </div>
             <div>
-              <label>Horário da Falha:</label>
-              <input
+              <FormCardLabel>Horário da Falha:</FormCardLabel>
+              <FormCardInput
                 type='time'
                 value={horarioDaFalha}
                 onChange={(e) => {
@@ -171,8 +177,8 @@ function App() {
               )}
             </div>
             <div>
-              <label>Previsão de Retorno:</label>
-              <input
+              <FormCardLabel>Previsão de Retorno:</FormCardLabel>
+              <FormCardInput
                 type='text'
                 value={previsaoDeRetorno}
                 onChange={(e) => {
@@ -185,53 +191,52 @@ function App() {
               )}
             </div>
             <div>
-              <label>Locais Afetados:</label>
-              <input
+              <FormCardLabel>Locais Afetados:</FormCardLabel>
+              <FormCardInput
                 type='text'
                 value={locaisAfetados}
                 onChange={(e) => setLocaisAfetados(e.target.value)}
               />
             </div>
             <div>
-              <label>Informações Adicionais: </label>
-              <input
+              <FormCardLabel>Informações Adicionais: </FormCardLabel>
+              <FormCardInput
               type='text'
               value={informacoesAdicionais}
               onChange={(e) => setInformacoesAdicionais(e.target.value)}
               />
             </div>
 
-            <button className='salvar-button' onClick={criarCard}>
+            <FormCardSalvarButton onClick={criarCard}>
               Salvar
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className='cards-container'>
+            </FormCardSalvarButton>
+          </ModalContent>
+        </FormCardContainer>
+      </ModalContainer>
+      <card>
         {massives.map((card, index) => (
-          <div key={index} className='card'>
-            <div className='header'>
+          <CardContainer key={index}>
+            <CardHeader>
               <p>{card.type}</p>
               <p></p>
-            </div>
+            </CardHeader>
             <hr />
             <div className='informacoesLocais'>
               <p>Previsão de Retorno: {card.returndate}</p>
               <p>Locais Afetados: {card.locaisAfetados}</p>
               <p>Informações Adicionais: {card.description}</p>
             </div>
-            <button
-              className='fechar-card-button'
+            <FecharCardButton
               onClick={() => {
                 setCards((prevCards) => prevCards.filter((c) => c.id !== card.id));
               }}
             >
               <FontAwesomeIcon icon={faCircleXmark} size='sm' style={{ color: 'white' }} />
-            </button>
-          </div>
+            </FecharCardButton>
+          </CardContainer>
         ))}
-      </div>
-    </div>
+      </card>
+    </AppContainer>
   );
 }
 
